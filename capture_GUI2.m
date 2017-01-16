@@ -78,23 +78,38 @@ set(handles.start,'string','START');
 global vid1 vid2 path_left path_right k format_a max_left max_right
  k=0;
  [path_left,path_right] = date_folder(path); 
- format_a = 'F7_RGB_320x240_Mode5';
+ format_a = 'F7_YUV422_320x240_Mode5';
+  %format_a = 'MJPG_640x480';
+ 
+ 
  max_left=0;
  max_right=0;
  
+%   vid1 = videoinput('winvideo', 3, format_a); % Left
   vid1 = videoinput('pointgrey', 1, format_a); % Left
-    set(vid1,'ReturnedColorSpace','rgb');
+%   src = getselectedsource(vid1);
+% Set camera parameters
+% src.ExposureMode = 'Manual';
+% src.Exposure = 1.8;
+
+  set(vid1,'ReturnedColorSpace','rgb');
     set(vid1,'FramesPerTrigger',1);
     set(vid1,'TriggerRepeat',inf);
     triggerconfig(vid1,'manual'); 
     start(vid1);
-    vid2 = videoinput('pointgrey', 2, format_a); % Right
+%vid2 = videoinput('winvideo', 4, format_a); % Right
+ vid2 = videoinput('pointgrey', 2, format_a); % Left
+
     set(vid2,'ReturnedColorSpace','rgb');
     set(vid2,'FramesPerTrigger',1);
     set(vid2,'TriggerRepeat',inf);
     triggerconfig(vid2,'manual'); 
     start(vid2);
-
+% src = getselectedsource(vid2);
+% 
+% % Set camera parameters
+% src.ExposureMode = 'Manual';
+% src.Exposure = 1.8;
     pause(2);
 
 
