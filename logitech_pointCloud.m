@@ -14,10 +14,10 @@ frameLeft=imread(frameLeft);
 frameRight=imread(frameRight);
 
 figure;
-subplot(121);
+subplot(421);
 imshow(frameLeft);
 title('Left View-1');
-subplot(122);
+subplot(422);
 imshow(frameRight);
 title('Right View-1')
 
@@ -27,7 +27,7 @@ title('Right View-1')
 %1st pointCloud
 
 [ptCloudRef,disparityMap]=stereo_to_ply(frameLeft,frameRight,stereoParams);
-figure;
+subplot(423)
 imshow(disparityMap);
 title('Disparity Map');
 colormap jet
@@ -39,7 +39,7 @@ colorbar
 
 % Visualize the point cloud
 %view(player3D, ptCloudRef);
-figure
+subplot(424)
 pcshow(ptCloudRef);
 
 %% 2nd PointCloud
@@ -50,17 +50,17 @@ frameLeft=imread(frameLeft);
 frameRight=imread(frameRight);
 
 figure;
-subplot(121);
+subplot(421);
 imshow(frameLeft);
 title('Left View-2');
-subplot(122);
+subplot(422);
 imshow(frameRight);
 title('Right View-2')
 
 
 
 [ptCloudCurrent,disparityMap]=stereo_to_ply(frameLeft,frameRight,stereoParams);
-figure;
+subplot(423)
 imshow(disparityMap);
 title('Disparity Map');
 colormap jet
@@ -73,7 +73,7 @@ colorbar
 
 % Visualize the point cloud
 % view(player1_3D, ptCloudCurrent);
-figure
+subplot(424)
 pcshow(ptCloudCurrent)
 %%stichting
  gridSize = 0.1;
@@ -89,12 +89,14 @@ mergeSize = 0.015;
 ptCloudScene = pcmerge(ptCloudRef, ptCloudAligned, mergeSize);
 figure
 pcshow(ptCloudScene)
+title('Combined PointCloud')
 
 
 % Store the transformation object that accumulates the transformation.
 accumTform = tform; 
 count=2;
 total_frames =length(srcFiles_left);
+figure;
 %% process rest of the frames
 for i=3:10
     count=count+1;
@@ -108,15 +110,15 @@ frameRight=imread(frameRight);
 
  
  [ptCloudCurrent,disparityMap]=stereo_to_ply(frameLeft,frameRight,stereoParams); 
-    subplot(121)
-    imshow(ptCloudCurrent.Color)
-    title('YOLO')
-    drawnow;
-    subplot(122);
-    imshow(disparityMap, [0, 64]);
-    title('Disparity Map');
-    colormap jet
-    colorbar
+%     subplot(121)
+%     imshow(ptCloudCurrent.Color)
+%     title('YOLO')
+%     drawnow;
+%     subplot(122);
+%     imshow(disparityMap, [0, 64]);
+%     title('Disparity Map');
+%     colormap jet
+%     colorbar
 
     fixed = moving;
     moving = pcdownsample(ptCloudCurrent, 'gridAverage', gridSize);
@@ -135,7 +137,7 @@ frameRight=imread(frameRight);
     
 % Visualize the point cloud
 pcshow(ptCloudScene);
- 
+ title('Combined pointCloud-%s',count)
 end
 
 
